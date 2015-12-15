@@ -59,20 +59,22 @@ class FeatureInstance:
         longest_left = 0
         longest_right = 0
 
-        for current_window_value in range(1,windowsize+1):
+        for current_window_value in reversed(list(range(1,windowsize+1))):
             leftcontext =  joinedsent[:glyph_idx].replace(" ","")[-1*current_window_value:]
             rightcontext = joinedsent[glyph_idx+1:].replace(" ","")[:current_window_value]
- 
-            if leftcontext+joinedsent[glyph_idx] in wordfreqs.keys() and glyph_idx >= current_window_value: #len(leftcontext+joinedsent[glyph_idx]) <= windowsize:
+
+            if longest_left == 0 and leftcontext+joinedsent[glyph_idx] in wordfreqs.keys() and glyph_idx >= current_window_value: #len(leftcontext+joinedsent[glyph_idx]) <= windowsize:
             #    dictfeats.append("left"+str(current_window_value))
                 longest_left=current_window_value
-            if joinedsent[glyph_idx]+rightcontext in wordfreqs.keys():#: and glyph_idx + current_window_value <= nospacesentlength:
+
+            if longest_right == 0 and joinedsent[glyph_idx]+rightcontext in wordfreqs.keys():#: and glyph_idx + current_window_value <= nospacesentlength:
              #  dictfeats.append("right"+str(current_window_value))
                longest_right=current_window_value
         if longest_left > 0:
              dictfeats.append("longestleft="+str(longest_left))
         if longest_right > 0:
              dictfeats.append("longestright="+str(longest_right))
+
             #if ldictfeats:
             #    self.feats["ldict"]=" ".join(ldictfeats)
             #if rdictfeats:
@@ -144,7 +146,7 @@ def main():
     parser.add_argument('--test_file', help="token-per-line or conll6/9/u file")
     parser.add_argument('--column',default=1)
     parser.add_argument('--BI_or_IE',choices = ['BI','IE'], default="BI")
-    parser.add_argument('--glyph_context',type=int,default=3)
+    parser.add_argument('--glyph_context',type=int,default=5)
 
 
     args = parser.parse_args()
