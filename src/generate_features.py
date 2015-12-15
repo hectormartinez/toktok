@@ -51,25 +51,44 @@ class FeatureInstance:
         self.feats["unicode"]= " ".join(v)
 
     def _feat_dictionary(self,joinedsent,glyph_idx,wordfreqs,windowsize):
+        nospacesentlength = len(joinedsent.replace(" ",""))
+        joinedsent = joinedsent.lower()
 
-        for current_window_value in range(2,windowsize+1):
+        dictfeats = []
+        longest = []
+        longest_left = 0
+        longest_right = 0
+
+        for current_window_value in range(1,windowsize+1):
             leftcontext =  joinedsent[:glyph_idx].replace(" ","")[-1*current_window_value:]
             rightcontext = joinedsent[glyph_idx+1:].replace(" ","")[:current_window_value]
-            #print(leftcontext,rightcontext)
-            if leftcontext+joinedsent[glyph_idx] in wordfreqs.keys() and len(leftcontext+joinedsent[glyph_idx]) <= windowsize:
-                self.feats["dict"]+="left"+str(current_window_value)
-            if joinedsent[glyph_idx]+rightcontext in wordfreqs.keys() and len(joinedsent[glyph_idx]+rightcontext) <= windowsize:
-                self.feats["dict"]+="right"+str(current_window_value)
-            #for size in range(1,windowsize+1):
+ 
+            if leftcontext+joinedsent[glyph_idx] in wordfreqs.keys() and glyph_idx >= current_window_value: #len(leftcontext+joinedsent[glyph_idx]) <= windowsize:
+            #    dictfeats.append("left"+str(current_window_value))
+                longest_left=current_window_value
+            if joinedsent[glyph_idx]+rightcontext in wordfreqs.keys():#: and glyph_idx + current_window_value <= nospacesentlength:
+             #  dictfeats.append("right"+str(current_window_value))
+               longest_right=current_window_value
+        if longest_left > 0:
+             dictfeats.append("longestleft="+str(longest_left))
+        if longest_right > 0:
+             dictfeats.append("longestright="+str(longest_right))
+            #if ldictfeats:
+            #    self.feats["ldict"]=" ".join(ldictfeats)
+            #if rdictfeats:
+            #    self.feats["rdict"]=" ".join(rdictfeats)
+        self.feats["dict"]=" ".join(dictfeats)
+
+
 
     def _feat_prevsymbols(self,joinedsent,glyph_idx,glyph_list,windowsize):
         leftcontext =  joinedsent[:glyph_idx].replace(" ","")[-1*windowsize:]
         rightcontext = joinedsent[glyph_idx+1:].replace(" ","")[:windowsize]
         v = []
+
         for idl,l in enumerate(leftcontext):
             if leftcontext[idl] in glyph_list:
                 v.append("l_"+str(idl)+"_"+str(glyph_list.index(leftcontext[idl])))
-
         for idr,r in enumerate(rightcontext):
             if rightcontext[idr] in glyph_list:
                 v.append("r_"+str(idr)+"_"+str(glyph_list.index(rightcontext[idr])))
@@ -112,7 +131,7 @@ def sentence_feats(sentid,sent,BI_or_IE,wordfreqs,glyph_list,glyph_context):
             fi.label = label
             fi.instanceid = instanceid
             fi._feat_unicodata(s)
-            fi._feat_dictionary(joinedsent,ids,wordfreqs,windowsize=15)
+            fi._feat_dictionary(joinedsent,ids,wordfreqs,windowsize=10)
             fi._feat_prevsymbols(joinedsent,ids,glyph_list,windowsize=glyph_context)
             print(fi)
     print()
@@ -131,7 +150,7 @@ def main():
     args = parser.parse_args()
 
     sentences = list(read_token_per_line_sentences(args.train_file,args.column))
-    wordfreqs = Counter(word for sent in sentences for word in sent)
+    wordfreqs = Counter(word.lower() for sent in sentences for word in sent)
 
     glyph_list=sorted(set([letter for word in wordfreqs.keys() for letter in word]))
 
