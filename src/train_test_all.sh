@@ -5,7 +5,7 @@ lang_short=(en sv bg la el pl da nl et id hu fi)
 lang_long=(English Swedish Bulgarian Latin Greek Polish Danish Dutch Estonian Indonesian Hungarian Finnish)
 for v in 0 1 2 3 4 5 6 7 8 9 10
 do
-#echo "${lang_long[$v]} ${lang_short[$v]}"
+echo "${lang_long[$v]} ${lang_short[$v]}"
 
 l_long=${lang_long[$v]}
 l_short=${lang_short[$v]}
