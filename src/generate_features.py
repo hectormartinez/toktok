@@ -152,6 +152,7 @@ def main():
     parser.add_argument('--column',default=1)
     parser.add_argument('--BI_or_IE',choices = ['BI','IE'], default="BI")
     parser.add_argument('--glyph_context',type=int,default=5)
+    parser.add_argument("--debug",action="store_true",default=False)
 
 
     args = parser.parse_args()
@@ -164,12 +165,21 @@ def main():
 
     glyph_list=sorted(set([letter for word in wordfreqs.keys() for letter in word]))
 
-    if args.test_file:
-        sentences = list(read_token_per_line_sentences(args.test_file,args.column))
-        pred=False
-    if args.to_tok:
-        sentences = [line.strip().replace(" ","") for line in open(args.to_tok).readlines()]
-        pred=True
+    if not args.debug:
+
+        if args.test_file:
+            sentences = list(read_token_per_line_sentences(args.test_file,args.column))
+            pred=False
+        if args.to_tok:
+            sentences = [line.strip().replace(" ","") for line in open(args.to_tok).readlines()]
+            pred=True
+    else:
+         if args.test_file:
+            sentences = list(read_token_per_line_sentences(args.test_file,args.column))[:20]
+            pred=False
+         if args.to_tok:
+            sentences = [line.strip().replace(" ","") for line in open(args.to_tok).readlines()][:20]
+            pred=True
 
     #print(wordfreqs)
     for sentid,sent in enumerate(sentences):
