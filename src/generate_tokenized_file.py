@@ -5,7 +5,6 @@ def main():
     parser = argparse.ArgumentParser(description="""""")
     parser.add_argument('--preds')
     parser.add_argument('--feats')
-    parser.add_argument('--s/t',default="t")
     args = parser.parse_args()
 
     nam=re.compile("name=([\w_]+)")
