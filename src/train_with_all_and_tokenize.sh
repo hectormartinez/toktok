@@ -1,4 +1,4 @@
-featsbasepath=$1
+treebankbasepath=$1
 rawtextbasepath=$2
 lang_short=( ar bg cs da de el en es et eu fa fi fr ga got grc he hi hr hu id it la nl no pl pt ro sl sv ta )
 lang_short=( ar bg cs da de en es eu fa fi fr he hi hr id it nl no pl pt sl sv)
