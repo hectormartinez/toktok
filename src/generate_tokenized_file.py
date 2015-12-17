@@ -13,7 +13,7 @@ def main():
         print(linepred,linefeats)
         linepred = linepred.strip()
         if linepred:
-            if re.search(linefeats).group(0):
+            if nam.search(linefeats).group(0):
                 ud_name = nam.search(linefeats).group(0).replace("name=","")
             pred = linepred[2][2:-1] #b'2' --> 2
             if pred == "1":
