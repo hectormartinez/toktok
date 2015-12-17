@@ -14,7 +14,10 @@ def main():
         if linepred:
             linepred = linepred.split()
             if nam.search(linefeats).group(0):
-                ud_name = nam.search(linefeats).group(0).replace("name=","").replace("_"," ")
+                try:
+                    ud_name = nam.search(linefeats).group(0).replace("name=","").replace("_"," ")
+                except:
+                    ud_name = "-"
             pred = linepred[2][2:-1] #b'2' --> 2
             if pred == "1":
                 acc+=" "

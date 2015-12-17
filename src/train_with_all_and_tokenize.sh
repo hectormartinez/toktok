@@ -1,6 +1,6 @@
 treebankbasepath=$1
 rawtextbasepath=$2
-lang_short=( en es et eu fa fi fr ga ar bg cs da de el  got grc he hi hr hu id it la nl no pl pt ro sl sv ta )
+lang_short=(  fa en es et eu fi fr ga ar bg cs da de el  got grc he hi hr hu id it la nl no pl pt ro sl sv ta )
 #lang_short=( ar bg cs da de en es eu fa fi fr he hi hr id it nl no pl pt sl sv)
 for v in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
 do
