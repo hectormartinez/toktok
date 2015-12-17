@@ -11,5 +11,7 @@ do
     rungsted --train "$l_short".all.train.tokf -f $l_short.tok.mdl
     rungsted --test "$l_short".watchtower.tokf -i $l_short.tok.mdl --predictions $l_short".watchtower.tpred"
     rungsted --test "$l_short".bible.tokf -i $l_short.tok.mdl --predictions $l_short".bible.tpred"
-    python generate_tokenized_file.py --preds $l_short".bible.tpred" --feats "$l_short".bible.tokf
+    python generate_tokenized_file.py --preds $l_short".bible.tpred" --feats "$l_short".bible.tokf > bible/"$l_short".dt
+    python generate_tokenized_file.py --preds $l_short".watchtower.tpred" --feats "$l_short".watchtower.tokf > watchtower/"$l_short".dt
+
  done
