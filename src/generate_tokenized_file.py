@@ -14,7 +14,7 @@ def main():
         linepred = linepred.strip()
         if linepred:
             if re.search(linefeats).group(0):
-                ud_name = re.search(linefeats).group(0).replace("name=","")
+                ud_name = nam.search(linefeats).group(0).replace("name=","")
             pred = linepred[2][2:-1] #b'2' --> 2
             if pred == "1":
                 acc=" "
