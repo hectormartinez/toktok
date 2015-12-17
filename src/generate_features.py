@@ -148,6 +148,7 @@ def main():
     parser = argparse.ArgumentParser(description="""Toktok feature generator""")
     parser.add_argument('--train_file', help="token-per-line or conll6/9/u file")
     parser.add_argument('--test_file', help="token-per-line or conll6/9/u file")
+    parser.add_argument('--to_tok', help="token-per-line or conll6/9/u file")
     parser.add_argument('--column',default=1)
     parser.add_argument('--BI_or_IE',choices = ['BI','IE'], default="BI")
     parser.add_argument('--glyph_context',type=int,default=5)
@@ -165,6 +166,10 @@ def main():
 
     if args.test_file:
         sentences = list(read_token_per_line_sentences(args.test_file,args.column))
+        pred=False
+    if args.to_tok:
+        sentences = [line.strip().replace(" ","") for line in open(args.to_tok).readlines()]
+        pred=True
 
     #print(wordfreqs)
     for sentid,sent in enumerate(sentences):
