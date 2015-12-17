@@ -83,10 +83,14 @@ class FeatureInstance:
 
 
 
-    def _feat_prevsymbols(self,joinedsent,glyph_idx,glyph_list,windowsize):
+    def _feat_prevsymbols(self,joinedsent,glyph_idx,glyph_list,windowsize,trigs=None):
         leftcontext =  joinedsent[:glyph_idx].replace(" ","")[-1*windowsize:]
         rightcontext = joinedsent[glyph_idx+1:].replace(" ","")[:windowsize]
         v = []
+
+        # trig = ("^"+leftcontext)[-1]+joinedsent[glyph_idx]+(rightcontext+"$")[0]
+        # if trig in trigs:
+        #     v.append("tg="+str(trigs.index(trig)))
 
         for idl,l in enumerate(leftcontext):
             if leftcontext[idl] in glyph_list:
@@ -117,7 +121,7 @@ def read_token_per_line_sentences(infile,column):
         yield sent
 
 
-def sentence_feats(sentid,sent,BI_or_IE,wordfreqs,glyph_list,glyph_context):
+def sentence_feats(sentid,sent,BI_or_IE,wordfreqs,glyph_list,glyph_context,trigs=None):
     joinedsent = " "+" ".join(sent)+" " #joining and padding for extra comfort
     for ids, s in enumerate(joinedsent):
         fi = FeatureInstance()
@@ -134,7 +138,7 @@ def sentence_feats(sentid,sent,BI_or_IE,wordfreqs,glyph_list,glyph_context):
             fi.instanceid = instanceid
             fi._feat_unicodata(s)
             fi._feat_dictionary(joinedsent,ids,wordfreqs,windowsize=10)
-            fi._feat_prevsymbols(joinedsent,ids,glyph_list,windowsize=glyph_context)
+            fi._feat_prevsymbols(joinedsent,ids,glyph_list,windowsize=glyph_context,trigs=trigs)
             print(fi)
     print()
 
@@ -153,6 +157,9 @@ def main():
 
     sentences = list(read_token_per_line_sentences(args.train_file,args.column))
     wordfreqs = Counter(word.lower() for sent in sentences for word in sent)
+    l="".join(letter for word in wordfreqs.keys() for letter in word)
+    #trigs=list(sorted(set([x+y+z for x,y,z in zip(l,l[1:],l[2:])])))
+
 
     glyph_list=sorted(set([letter for word in wordfreqs.keys() for letter in word]))
 
