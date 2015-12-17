@@ -107,7 +107,7 @@ class FeatureInstance:
 
 def read_token_per_line_sentences(infile,column):
     sent = []
-    for line in open(infile).readlines():
+    for line in open(infile):
         line = line.strip()
         if not line:
             yield sent
