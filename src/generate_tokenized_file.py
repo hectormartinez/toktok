@@ -5,6 +5,7 @@ def main():
     parser = argparse.ArgumentParser(description="""""")
     parser.add_argument('--preds')
     parser.add_argument('--feats')
+    parser.add_argument('--s/t',default="t")
     args = parser.parse_args()
 
     nam=re.compile("name=([\w_]+)")
@@ -27,10 +28,15 @@ def main():
                 acc+="-"
         else:
             #"end of line"
-            print(acc.strip())
+            for x in acc.split(" "):
+                print(x)
+            print()
+            #print(acc.strip())
             acc=""
     if acc:
-        print(acc.strip())
+        for x in acc.split(" "):
+            print(x)
+        print()
 
 
 
