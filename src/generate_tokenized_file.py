@@ -21,10 +21,10 @@ def main():
             acc+=ud.lookup(ud_name)
         else:
             #"end of line"
-            print(acc)
+            print(acc.strip())
             acc=""
     if acc:
-        print(acc)
+        print(acc.strip())
 
 
 
