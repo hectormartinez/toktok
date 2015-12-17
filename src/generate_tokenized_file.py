@@ -9,7 +9,7 @@ def main():
 
     nam=re.compile("name=([\w_]+)")
     acc=""
-    for linepred, linefeats in zip(open(args.preds,encoding="utf-8")+[""],open(args.feats,encoding="utf-8")+[""])[:10]:
+    for linepred, linefeats in zip(open(args.preds,encoding="utf-8").readlines(),open(args.feats,encoding="utf-8").readlines()):
         print(linepred,linefeats)
         linepred = linepred.strip()
         if linepred:
@@ -23,6 +23,8 @@ def main():
             #"end of line"
             print(acc)
             acc=""
+    if acc:
+        print(acc)
 
 
 
