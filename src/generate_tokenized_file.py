@@ -17,11 +17,14 @@ def main():
                 try:
                     ud_name = nam.search(linefeats).group(0).replace("name=","").replace("_"," ")
                 except:
-                    ud_name = "-"
+                    ud_name = "HYPHEN-MINUS"
             pred = linepred[2][2:-1] #b'2' --> 2
             if pred == "1":
                 acc+=" "
-            acc+=ud.lookup(ud_name)
+            try:
+                acc+=ud.lookup(ud_name)
+            except:
+                acc+="-"
         else:
             #"end of line"
             print(acc.strip())
